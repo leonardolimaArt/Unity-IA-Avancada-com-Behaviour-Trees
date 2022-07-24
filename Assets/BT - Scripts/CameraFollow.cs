@@ -6,9 +6,10 @@ public class CameraFollow : MonoBehaviour
 {
 
     public Transform Target;
-    public float distance;
     
-
+    [Range(0,10)]
+    public int distance;
+    
     void Start()
     {
         
@@ -17,7 +18,8 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(Target.transform.position.x - distance, Target.transform.position.y + distance, Target.transform.position.z - distance);
+        transform.position = new Vector3(Target.position.x - distance, Target.position.y + distance, Target.position.z - distance);
         transform.LookAt(Target);
+
     }
 }

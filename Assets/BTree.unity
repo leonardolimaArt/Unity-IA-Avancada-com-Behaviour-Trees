@@ -1927,6 +1927,7 @@ MonoBehaviour:
   backdoor: {fileID: 919599686}
   frontdoor: {fileID: 1791870521}
   van: {fileID: 39027148}
+  money: 400
 --- !u!4 &642336164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7423567203501390115, guid: b79d0b13355dc8f44b7956db61a82656, type: 3}
@@ -2352,7 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 642336164}
-  distance: 7
+  distance: 6
 --- !u!81 &853602381
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2411,7 +2412,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853602379}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 19.29082, y: 5.22, z: 9.632404}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
