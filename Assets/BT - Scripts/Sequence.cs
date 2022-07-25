@@ -17,8 +17,16 @@ public class Sequence : Node
         if (childstatus == Status.RUNNING)
             return Status.RUNNING;
         if (childstatus == Status.FAILURE)
-            return childstatus;
+        {
+            currentChildren = 0;
+            foreach (Node n in children)
+            {
+                n.Reset();
+            }
+            return Status.FAILURE;
 
+        }
+            
         currentChildren++;
         if(currentChildren >= children.Count)
         {

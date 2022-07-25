@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BTAgente : MonoBehaviour
+public class BTAgent : MonoBehaviour
 {
     public BehaviourTree tree;
 
     public NavMeshAgent agent;
+
 
     public enum ActionState { IDLE, WORKING};
     public ActionState state = ActionState.IDLE;
@@ -15,9 +16,9 @@ public class BTAgente : MonoBehaviour
     public Node.Status treeStatus = Node.Status.RUNNING;
 
     WaitForSeconds waitForSeconds;
+    Vector3 remeberedLocation;
 
-    
-    public void Start()
+    public virtual void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
         
@@ -26,6 +27,34 @@ public class BTAgente : MonoBehaviour
         StartCoroutine("Behave");
     }
         
+    public Node.Status CanSee(Vector3 target, string tag, float distance, float maxAngle)
+    {
+        Vector3 directionToTarget = target - this.transform.position;
+        float angle = Vector3.Angle(directionToTarget, this.transform.position);
+
+        if(angle <= maxAngle || directionToTarget.magnitude <= distance)
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(this.transform.position, directionToTarget, out hitInfo))
+            {
+                if (hitInfo.collider.gameObject.CompareTag(tag))
+                {
+                    return Node.Status.SUCESS;
+                }
+            }
+        }
+        return Node.Status.FAILURE;
+    }
+    public Node.Status Flee(Vector3 location, float distance)
+    {
+        if (state == ActionState.IDLE)
+        {
+            remeberedLocation = this.transform.position + (transform.position - location).normalized * distance;
+        }
+        
+        return GoToLocation(remeberedLocation);
+    }
+
     public Node.Status GoToLocation(Vector3 destination)
     {
         float distanceToTarget = Vector3.Distance(destination, this.transform.position);
