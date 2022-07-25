@@ -1476,7 +1476,7 @@ GameObject:
   - component: {fileID: 425408385}
   m_Layer: 0
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1899,8 +1899,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 20
+  m_Acceleration: 80
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -1923,11 +1923,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745751d21a8441c4c8fda8492c35fa89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  state: 0
+  treeStatus: 1
   diamond: {fileID: 1550492363}
+  painting: []
   backdoor: {fileID: 919599686}
   frontdoor: {fileID: 1791870521}
   van: {fileID: 39027148}
-  money: 400
+  money: 0
 --- !u!4 &642336164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7423567203501390115, guid: b79d0b13355dc8f44b7956db61a82656, type: 3}
@@ -2531,7 +2535,7 @@ GameObject:
   - component: {fileID: 915494409}
   m_Layer: 0
   m_Name: Cafe
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2761,7 +2765,7 @@ GameObject:
   - component: {fileID: 925317491}
   m_Layer: 0
   m_Name: Waterlillies
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3539,7 +3543,7 @@ GameObject:
   - component: {fileID: 1101234486}
   m_Layer: 0
   m_Name: Gothic
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4708,7 +4712,7 @@ GameObject:
   - component: {fileID: 1544815186}
   m_Layer: 0
   m_Name: Sunflowers
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5443,7 +5447,7 @@ GameObject:
   - component: {fileID: 1904932023}
   m_Layer: 0
   m_Name: MonaLisa
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5545,7 +5549,7 @@ GameObject:
   - component: {fileID: 1922895634}
   m_Layer: 0
   m_Name: Mondrian
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5744,7 +5748,7 @@ GameObject:
   - component: {fileID: 1959054991}
   m_Layer: 0
   m_Name: Face
-  m_TagString: Untagged
+  m_TagString: Painting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
