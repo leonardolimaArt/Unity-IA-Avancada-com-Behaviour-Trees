@@ -93,8 +93,6 @@ public class RobberBehaviour : BTAgent
         stealWithFallBack.AddChild(steal);
         stealWithFallBack.AddChild(goToVan);
 
-
-
         Selector beThief = new Selector("Be a thief");
         beThief.AddChild(stealWithFallBack);
         beThief.AddChild(runAway);
