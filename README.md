@@ -2,7 +2,7 @@
 Project of my study on artificial intelligence with Unity.
 
 Content:<br>
-- Use of Behaviour Trees.<br>
+- Use of Behaviour Tree.<br>
 - Data Structures.<br>
 - Sequences.<br>
 - Dependecies.<br>
