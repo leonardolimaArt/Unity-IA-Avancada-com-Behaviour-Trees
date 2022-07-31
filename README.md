@@ -2,12 +2,12 @@
 Project of my study on artificial intelligence with Unity.
 
 Content:<br>
--Use of Behaviour Trees.
--Data Structures.
--Sequences.
--Dependecies.
--Selector.
--Conditions.
--Inverter.
--Rep Tasks.
--Shuffle and Sort.
+- Use of Behaviour Trees.<br>
+- Data Structures.<br>
+- Sequences.<br>
+- Dependecies.<br>
+- Selector.<br>
+- Conditions.<br>
+- Inverter.<br>
+- Rep Tasks.<br>
+- Shuffle and Sort.<br>
