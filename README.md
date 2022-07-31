@@ -1,4 +1,4 @@
-# Unity - Advanced Artificial Intelligence
+# Unity - Advanced Artificial Intelligence with Behaviour Tree
 Project of my study on artificial intelligence with Unity.
 
 Content:<br>
