@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Inverter : Node
 {
-    // Start is called before the first frame update
     public Inverter(string n)
     {
         name = n;
@@ -13,13 +12,13 @@ public class Inverter : Node
     public override Status Process()
     {
         Status childstatus = children[0].Process();
-
-        if (childstatus == Status.RUNNING)
-            return Status.RUNNING;
+        if (childstatus == Status.RUNNING) return Status.RUNNING;
         if (childstatus == Status.FAILURE)
-            return Status.SUCESS;
+            return Status.SUCCESS;
         else
             return Status.FAILURE;
-        
+
     }
+
+
 }

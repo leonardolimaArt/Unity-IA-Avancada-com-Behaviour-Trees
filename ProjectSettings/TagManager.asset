@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Painting
   - Cop
+  - Robber
+  - art
+  - patrol
   layers:
   - Default
   - TransparentFX

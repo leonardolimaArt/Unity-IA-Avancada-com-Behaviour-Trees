@@ -1,41 +1,38 @@
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RobberBehaviour : BTAgent
-{
-    
-    public GameObject diamond;
-    public GameObject[] painting;
+public class RobberBehaviour : BTAgent {
+    public GameObject van;
     public GameObject backdoor;
     public GameObject frontdoor;
-    public GameObject van;
     public GameObject cop;
+
+    public GameObject[] art;
+
     GameObject pickup;
-    int r;
+
+    [Range(0, 1000)]
+    public int money;
+
+    [Range(0, 1000)]
+    public int maxMoney = 500;
 
     Leaf goToBackDoor;
     Leaf goToFrontDoor;
 
-       [Range(0, 1000)]
-    public int money = 400;
-
-    public override void Start()
-    {
+    // Start is called before the first frame update
+    public override void Start() {
         base.Start();
+        art = GameObject.FindGameObjectsWithTag("art");
 
-        painting = GameObject.FindGameObjectsWithTag("Painting");
-       
-        
-        Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond, 1);
-        Leaf goToPainting = new Leaf("Go To Painting", GoToPainting, 2);
         Leaf hasGotMoney = new Leaf("Has Got Money", HasMoney);
 
         RSelector selectObject = new RSelector("Select Object to Steal");
-        for (int i = 0; i < painting.Length; i++)
-        {
-            Leaf gta = new Leaf("Go to " + painting[i].name, i, GoToArt);
+        for (int i = 0; i < art.Length; i++) {
+            Leaf gta = new Leaf("Go to " + art[i].name, i, GoToArt);
             selectObject.AddChild(gta);
         }
 
@@ -72,88 +69,71 @@ public class RobberBehaviour : BTAgent
         s4.AddChild(cantSeeCop);
         s4.AddChild(goToVan);
 
-        /* steal.AddChild(s1);
-         steal.AddChild(s2);
-         steal.AddChild(s3);
-         steal.AddChild(s4);*/
+        /*steal.AddChild(s1);
+        steal.AddChild(s2);
+        steal.AddChild(s3);
+        steal.AddChild(s4);*/
+        Leaf isOpen = new Leaf("Is Open", IsOpen);
+        Inverter isClosed = new Inverter("Is Closed");
+        isClosed.AddChild(isOpen);
 
         BehaviourTree stealConditions = new BehaviourTree();
-        Sequence conditions = new Sequence("Steling Conditions");
+        Sequence conditions = new Sequence("Stealing Conditions");
+        conditions.AddChild(isClosed);
         conditions.AddChild(cantSeeCop);
         conditions.AddChild(invertMoney);
         stealConditions.AddChild(conditions);
         DepSequence steal = new DepSequence("Steal Something", stealConditions, agent);
-
         //steal.AddChild(invertMoney);
         steal.AddChild(opendoor);
         steal.AddChild(selectObject);
         steal.AddChild(goToVan);
 
-        Selector stealWithFallBack = new Selector("Steal with Fallback");
-        stealWithFallBack.AddChild(steal);
-        stealWithFallBack.AddChild(goToVan);
+        Selector stealWithFallback = new Selector("Steal with Fallback");
+        stealWithFallback.AddChild(steal);
+        stealWithFallback.AddChild(goToVan);
 
         Selector beThief = new Selector("Be a thief");
-        beThief.AddChild(stealWithFallBack);
+        beThief.AddChild(stealWithFallback);
         beThief.AddChild(runAway);
 
         tree.AddChild(beThief);
 
         tree.PrintTree();
+
+       // StartCoroutine("DecreaseMoney");
     }
 
-    public Node.Status CanSeeCop()
-    {
-        return CanSee(cop.transform.position, "Cop", 10, 90);
+    
+
+    public Node.Status CanSeeCop() {
+
+        return CanSee(cop.transform.position, "Cop", 20, 90);
     }
 
-    public Node.Status FleeFromCop()
-    {
-        return Flee(cop.transform.position, 10);
+    public Node.Status FleeFromCop() {
+
+        return Flee(cop.transform.position, 30);
     }
 
-    public Node.Status HasMoney()
-    {
-        if (money < 500)
+    public Node.Status HasMoney() {
+
+        if (money < maxMoney)
             return Node.Status.FAILURE;
-        return Node.Status.SUCESS;
+        return Node.Status.SUCCESS;  
     }
-    public Node.Status GoToDiamond()
-    {
-        if (!diamond.activeSelf) return Node.Status.FAILURE;
-        Node.Status s =  GoToLocation(diamond.transform.position);
-        if (s == Node.Status.SUCESS)
-        {
-            diamond.transform.parent = this.gameObject.transform;
-            pickup = diamond;
-        }
-        return s;
-    }
-    public Node.Status GoToPainting()
-    {
-        if (!painting[r].activeSelf) return Node.Status.FAILURE;
-        Node.Status s = GoToLocation(painting[r].transform.position);
-        if (s == Node.Status.SUCESS)
-        {
-            painting[r].transform.parent = this.gameObject.transform;
-            pickup = painting[r];
+
+    public Node.Status GoToArt(int i) {
+        if (!art[i].activeSelf) return Node.Status.FAILURE;
+        Node.Status s = GoToLocation(art[i].transform.position);
+        if (s == Node.Status.SUCCESS) {
+            art[i].transform.parent = this.gameObject.transform;
+            pickup = art[i];
         }
         return s;
     }
 
-    public Node.Status GoToArt(int i)
-    {
-        if (!painting[i].activeSelf) return Node.Status.FAILURE;
-        Node.Status s = GoToLocation(painting[i].transform.position);
-        if (s == Node.Status.SUCESS)
-        {
-            painting[i].transform.parent = this.gameObject.transform;
-            pickup = painting[i];
-        }
-        return s;
-    }
-    public Node.Status GoToBackDoor()
-    {
+    public Node.Status GoToBackDoor() {
         Node.Status s = GoToDoor(backdoor);
         if (s == Node.Status.FAILURE)
             goToBackDoor.sortOrder = 10;
@@ -161,8 +141,8 @@ public class RobberBehaviour : BTAgent
             goToBackDoor.sortOrder = 1;
         return s;
     }
-    public Node.Status GoToFrontDoor()
-    {
+
+    public Node.Status GoToFrontDoor() {
         Node.Status s = GoToDoor(frontdoor);
         if (s == Node.Status.FAILURE)
             goToFrontDoor.sortOrder = 10;
@@ -170,35 +150,23 @@ public class RobberBehaviour : BTAgent
             goToFrontDoor.sortOrder = 1;
         return s;
     }
-    public Node.Status GoToVan()
-    {
+
+    public Node.Status GoToVan() {
         Node.Status s = GoToLocation(van.transform.position);
-        if (s == Node.Status.SUCESS)
-        {
-            if(pickup != null)
-            {
-                money += 300;
+        if (s == Node.Status.SUCCESS) {
+            if (pickup != null) {
+                money += 100;
                 pickup.SetActive(false);
+                pickup = null;
+                if (money >= maxMoney)
+                {
+                    this.gameObject.SetActive(false);
+                }
             }
         }
         return s;
     }
 
-    public Node.Status GoToDoor(GameObject door)
-    {
-        Node.Status s = GoToLocation(door.transform.position);
-        if (s == Node.Status.SUCESS)
-        {
-            if (!door.GetComponent<Lock>().isLocked)
-            {
-                door.GetComponent<NavMeshObstacle>().enabled = false;
-                return Node.Status.SUCESS;
-            }
-            return Node.Status.FAILURE;
-        }
-        else
-            return s;
-    }
-    
-    
+
+
 }

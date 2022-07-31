@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//Priorizer
+
 public class PSelector : Node
 {
     Node[] nodeArray;
-    bool order = false;
+    bool ordered = false;
+
     public PSelector(string n)
     {
         name = n;
@@ -20,55 +21,66 @@ public class PSelector : Node
 
     public override Status Process()
     {
-        if (!order)
+        if (!ordered)
         {
             OrderNodes();
-            order = true;
+            ordered = true;
         }
-        
-        Status childstatus = children[currentChildren].Process();
-        if (childstatus == Status.RUNNING)
-            return Status.RUNNING;
-        if (childstatus == Status.SUCESS)
+
+        Status childstatus = children[currentChild].Process();
+        if (childstatus == Status.RUNNING) return Status.RUNNING;
+
+        if (childstatus == Status.SUCCESS)
         {
-            //children[currentChildren].sortOrder = 1;
-            currentChildren = 0;
-            order = false;
-            return Status.SUCESS;
+            //children[currentChild].sortOrder = 1;
+            currentChild = 0;
+            ordered = false;
+            return Status.SUCCESS;
         }
         //else
-        //{
-            //children[currentChildren].sortOrder = 10;
-        //}
-        currentChildren++;
-        if (currentChildren >= children.Count)
+           // children[currentChild].sortOrder = 10;
+
+        currentChild++;
+        if (currentChild >= children.Count)
         {
-            currentChildren = 0;
-            order = false;
+            
+            currentChild = 0;
+            ordered = false;
             return Status.FAILURE;
         }
+
         return Status.RUNNING;
     }
-    int Partition(Node[] array, int low, int high)
+
+    //QuickSort
+    //Adapted from: https://exceptionnotfound.net/quick-sort-csharp-the-sorting-algorithm-family-reunion/
+    int Partition(Node[] array, int low,
+                                int high)
     {
         Node pivot = array[high];
+
         int lowIndex = (low - 1);
 
+        //2. Reorder the collection.
         for (int j = low; j < high; j++)
         {
             if (array[j].sortOrder <= pivot.sortOrder)
             {
                 lowIndex++;
+
                 Node temp = array[lowIndex];
                 array[lowIndex] = array[j];
                 array[j] = temp;
             }
         }
+
         Node temp1 = array[lowIndex + 1];
         array[lowIndex + 1] = array[high];
         array[high] = temp1;
+
         return lowIndex + 1;
     }
+
     void Sort(Node[] array, int low, int high)
     {
         if (low < high)
@@ -78,4 +90,6 @@ public class PSelector : Node
             Sort(array, partitionIndex + 1, high);
         }
     }
+
+
 }

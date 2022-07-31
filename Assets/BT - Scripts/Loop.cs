@@ -2,40 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Loop : Node
-{
+public class Loop : Node {
+
     BehaviourTree dependancy;
-    // Start is called before the first frame update
-    public Loop(string n, BehaviourTree d)
-    {
+
+    public Loop(string n, BehaviourTree d) {
+
         name = n;
         dependancy = d;
     }
 
-    public override Status Process()
-    {
-        if(dependancy.Process() == Status.FAILURE)
-        {
-            return Status.SUCESS;
-        }
-        
-        Status childstatus = children[currentChildren].Process();
+    public override Status Process() {
 
-        if (childstatus == Status.RUNNING)
-            return Status.RUNNING;
-        if (childstatus == Status.FAILURE)
-        {
+        if (dependancy.Process() == Status.FAILURE) {
 
-            return childstatus;
-
+            return Status.SUCCESS;
         }
 
-        currentChildren++;
-        if (currentChildren >= children.Count)
-        {
-            currentChildren = 0;
-            
+        Status childstatus = children[currentChild].Process();
+        if (childstatus == Status.RUNNING) return Status.RUNNING;
+        if (childstatus == Status.FAILURE) return childstatus;
+
+        currentChild++;
+        if (currentChild >= children.Count) {
+
+            currentChild = 0;
         }
+
         return Status.RUNNING;
     }
+
+
 }

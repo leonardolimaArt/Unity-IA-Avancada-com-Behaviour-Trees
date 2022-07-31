@@ -9,7 +9,9 @@ public class Leaf : Node
 
     public delegate Status TickM(int val);
     public TickM ProcessMethodM;
+
     public int index;
+
     public Leaf() { }
 
     public Leaf(string n, Tick pm)
@@ -24,7 +26,6 @@ public class Leaf : Node
         ProcessMethodM = pm;
         index = i;
     }
-
 
     public Leaf(string n, Tick pm, int order)
     {
@@ -46,4 +47,5 @@ public class Leaf : Node
         Debug.Log(name + " " + s);
         return s;
     }
+
 }

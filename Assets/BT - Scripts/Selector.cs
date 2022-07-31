@@ -11,22 +11,23 @@ public class Selector : Node
 
     public override Status Process()
     {
-        Status childstatus = children[currentChildren].Process();
+        Status childstatus = children[currentChild].Process();
+        if (childstatus == Status.RUNNING) return Status.RUNNING;
 
-        if (childstatus == Status.RUNNING)
-            return Status.RUNNING;
-        if (childstatus == Status.SUCESS)
+        if (childstatus == Status.SUCCESS)
         {
-            currentChildren = 0;
-            return Status.SUCESS;
+            currentChild = 0;
+            return Status.SUCCESS;
         }
 
-        currentChildren++;
-        if (currentChildren >= children.Count)
+        currentChild++;
+        if (currentChild >= children.Count)
         {
-            currentChildren = 0;
+            currentChild = 0;
             return Status.FAILURE;
         }
+
         return Status.RUNNING;
     }
+
 }

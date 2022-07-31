@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+//Taken from https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
 using UnityEngine;
 
 public class Drive : MonoBehaviour
 {
     public float speed = 10.0f;
     public float rotationSpeed = 100.0f;
-    public float currentSpeed = 0;
 
     void Update()
     {
@@ -22,7 +20,6 @@ public class Drive : MonoBehaviour
 
         // Move translation along the object's z-axis
         transform.Translate(0, 0, translation);
-        currentSpeed = translation;
 
         // Rotate around our y-axis
         transform.Rotate(0, rotation, 0);
